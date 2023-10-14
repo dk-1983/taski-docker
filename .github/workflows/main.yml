@@ -1,4 +1,4 @@
-name: Main Kittygram workflow
+name: Main Taski workflow
 
 on:
   push:
@@ -12,9 +12,9 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_USER: kittygram
-          POSTGRES_PASSWORD: kittygram
-          POSTGRES_DB: kittygram
+          POSTGRES_USER: django
+          POSTGRES_PASSWORD: django
+          POSTGRES_DB: django
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -32,9 +32,9 @@ jobs:
         pip install -r ./backend/requirements.txt
     - name: Test with flake8 and django tests
       env:
-        POSTGRES_USER: kittygram
-        POSTGRES_PASSWORD: kittygram
-        POSTGRES_DB: kittygram
+        POSTGRES_USER: django
+        POSTGRES_PASSWORD: django
+        POSTGRES_DB: django
         DB_HOST: 127.0.0.1
         DB_PORT: 5432
       run: |
@@ -61,7 +61,7 @@ jobs:
         with:
           context: ./backend/
           push: true
-          tags: bigjack1983/kittygram_backend:latest
+          tags: bigjack1983/taski_backend:latest
 
   frontend_tests:
     runs-on: ubuntu-latest
@@ -101,7 +101,7 @@ jobs:
         with:
           context: ./frontend/
           push: true
-          tags: bigjack1983/kittygram_frontend:latest
+          tags: bigjack1983/taski_frontend:latest
 
   build_gateway_and_push_to_docker_hub:
     name: Push gateway Docker image to DockerHub
@@ -121,7 +121,7 @@ jobs:
         with:
           context: ./gateway/
           push: true
-          tags: bigjack1983/kittygram_gateway:latest
+          tags: bigjack1983/taski_gateway:latest
 
   on:
     push:
@@ -171,4 +171,4 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: Деплой Kittygram успешно выполнен!
+          message: Деплой Taski успешно выполнен!
